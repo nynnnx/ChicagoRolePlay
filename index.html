@@ -27,7 +27,6 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            /* FIXED: Removed solid color block to let background video shine through */
             background: transparent;
             color: var(--text-main);
             font-family: var(--font-body);
@@ -48,7 +47,6 @@
             width: 100vw; 
             height: 100vh;
             z-index: -3;
-            /* FIXED: Elevated opacity slightly so the red tones pop behind your panels */
             opacity: 0.85; 
             pointer-events: none;
             object-fit: cover;
@@ -68,7 +66,6 @@
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            /* FIXED: Merged your primary dark base tint color directly into the overlay gradient */
             background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%);
             z-index: -1;
             pointer-events: none;
@@ -115,10 +112,15 @@
         .dock-menu {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 30px;
+            gap: 6px;
+            margin-top: 20px;
             flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
         }
+        .dock-menu::-webkit-scrollbar { width: 3px; }
+        .dock-menu::-webkit-scrollbar-thumb { background: rgba(255, 0, 60, 0.3); }
+
         .menu-label {
             font-family: var(--font-display);
             font-size: 0.7rem;
@@ -126,17 +128,17 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            margin: 15px 0 5px 5px;
+            margin: 10px 0 5px 5px;
         }
         .dock-btn {
             background: rgba(20, 20, 25, 0.4);
             border: 1px solid rgba(255,255,255,0.03);
             border-left: 3px solid transparent;
             color: var(--text-muted);
-            padding: 12px 15px;
+            padding: 10px 15px;
             border-radius: 4px;
             font-family: var(--font-display);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
@@ -207,6 +209,9 @@
             display: flex;
             flex-direction: column;
             gap: 45px;
+        }
+        .vault-section.hidden-pool {
+            display: none;
         }
         .vault-category-title {
             font-family: var(--font-display);
@@ -443,10 +448,25 @@
             
             <div class="dock-menu">
                 <div class="menu-label">Main Matrix</div>
-                <button class="dock-btn active" onclick="switchInterface('vault-panel')">
-                    <i class="fa-solid fa-warehouse"></i> Armory Vault
+                
+                <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
+                    <i class="fa-solid fa-layer-group"></i> All Weapons
                 </button>
-                <button class="dock-btn" onclick="switchInterface('spin-panel')">
+                <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')">
+                    <i class="fa-solid fa-diamond"></i> S Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')">
+                    <i class="fa-solid fa-award"></i> A Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')">
+                    <i class="fa-solid fa-star"></i> B Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')">
+                    <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
+                </button>
+                
+                <div class="menu-label">Modules</div>
+                <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
                     <i class="fa-solid fa-clover"></i> Faction Drop
                 </button>
             </div>
@@ -596,26 +616,40 @@
             requestAnimationFrame(renderEngine);
         }
 
-        starImg.onload = () => {
-            renderEngine();
-        };
-
-        starImg.onerror = () => {
-            renderEngine();
-        };
-        
+        starImg.onload = () => { renderEngine(); };
+        starImg.onerror = () => { renderEngine(); };
         renderEngine();
     }
 
-    // ================= DOCK PANEL CONTROLLER =================
-    function switchInterface(targetPanelId) {
+    // ================= DOCK PANEL CONTROLLER + FILTERS =================
+    function switchInterface(targetPanelId, activeFilter = null) {
         document.querySelectorAll('.panel-box').forEach(p => p.classList.remove('active-panel'));
         document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
         
         document.getElementById(targetPanelId).classList.add('active-panel');
         
-        const clickedBtn = Array.from(document.querySelectorAll('.dock-btn')).find(b => b.getAttribute('onclick').includes(targetPanelId));
-        if(clickedBtn) clickedBtn.classList.add('active');
+        // Highlight correct active button
+        if (targetPanelId === 'spin-panel') {
+            document.getElementById('btn-spin').classList.add('active');
+        } else if (activeFilter) {
+            document.getElementById(`btn-${activeFilter}`).classList.add('active');
+        }
+
+        // Apply visual category filtering to the armory vault pools
+        if (targetPanelId === 'vault-panel') {
+            const sections = document.querySelectorAll('.vault-section');
+            sections.forEach(sec => {
+                if (!activeFilter || activeFilter === 'all') {
+                    sec.classList.remove('hidden-pool');
+                } else {
+                    if (sec.getAttribute('data-tier-pool') === activeFilter) {
+                        sec.classList.remove('hidden-pool');
+                    } else {
+                        sec.classList.add('hidden-pool');
+                    }
+                }
+            });
+        }
     }
 
     // ================= RECONSTRUCTED VAULT GENERATOR =================
@@ -626,6 +660,7 @@
         Object.keys(tierMeta).forEach(key => {
             const section = document.createElement('div');
             section.className = "vault-section";
+            section.setAttribute('data-tier-pool', key);
             const meta = tierMeta[key];
             
             let htmlStr = `
