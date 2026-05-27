@@ -159,43 +159,31 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
 
-        /* ================= SIDEBAR COMPACT INFO DOCK ================= */
+        /* ================= SIDEBAR COMPACT STATIC INFO DISPLAY ================= */
         .sidebar-info-module {
             margin-top: 15px;
-            border-top: 1px solid rgba(255, 0, 60, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding-top: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
+            text-align: center;
         }
-        .sidebar-info-title {
-            font-family: var(--font-display);
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--accent-crimson);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .sidebar-info-textarea {
-            width: 100%;
-            height: 130px;
-            background: rgba(12, 12, 16, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
-            padding: 10px;
-            color: #ffffff;
+        .sidebar-info-text {
             font-family: var(--font-body);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            resize: none;
-            outline: none;
-            transition: border-color 0.2s ease;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            text-transform: none;
+            word-wrap: break-word;
         }
-        .sidebar-info-textarea:focus {
-            border-color: var(--accent-crimson);
+        .sidebar-info-sub {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         /* ================= CENTRAL DISPLAY TERMINAL ================= */
@@ -437,7 +425,7 @@
     <div class="vignette"></div>
 
     <div class="command-dock">
-        <div style="display: flex; flex-direction: column; height: calc(100% - 170px);">
+        <div style="display: flex; flex-direction: column; height: calc(100% - 70px);">
             <div class="brand-block">
                 <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
                 <div class="brand-text">EWC // <span>System</span></div>
@@ -470,12 +458,8 @@
         </div>
 
         <div class="sidebar-info-module">
-            <div class="sidebar-info-title">
-                <i class="fa-solid fa-terminal"></i> Info Terminal
-            </div>
-            <textarea class="sidebar-info-textarea" placeholder="Type patch logs or system instructions here...">System Status: Active
-Version: 1.0.4
-EWC Core Terminal Online. Click weapon filters above to sort active inventory registry.</textarea>
+            <div class="sidebar-info-text">EWC Core Terminal</div>
+            <div class="sidebar-info-sub">System Status: Active // v1.0.4</div>
         </div>
     </div>
 
