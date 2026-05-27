@@ -39,7 +39,7 @@
             position: relative;
         }
 
-        /* Ambient Local MP4 Backdrop - Forced Fullscreen Cover */
+        /* Ambient Video Backdrop - Linked to correct asset name */
         .video-canvas-local {
             position: fixed;
             top: 0; 
@@ -82,7 +82,7 @@
             border-right: 2px solid var(--accent-crimson);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             padding: 25px;
             z-index: 10;
             box-shadow: 5px 0 35px rgba(0,0,0,0.6);
@@ -92,6 +92,7 @@
             text-align: center;
             padding-bottom: 20px;
             border-bottom: 1px solid rgba(255, 0, 60, 0.2);
+            margin-bottom: 15px;
         }
         .brand-logo {
             width: 70px;
@@ -113,7 +114,6 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            margin-top: 20px;
             flex-grow: 1;
             overflow-y: auto;
             padding-right: 5px;
@@ -128,7 +128,7 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            margin: 10px 0 5px 5px;
+            margin: 12px 0 5px 5px;
         }
         .dock-btn {
             background: rgba(20, 20, 25, 0.4);
@@ -203,6 +203,41 @@
             padding-bottom: 15px;
         }
         .panel-title i { color: var(--accent-crimson); }
+
+        /* ================= SYSTEM INFO WORKSPACE ================= */
+        .info-editor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .info-textarea {
+            width: 100%;
+            height: 350px;
+            background: rgba(12, 12, 16, 0.75);
+            border: 1px solid rgba(255, 0, 60, 0.25);
+            border-radius: 6px;
+            padding: 20px;
+            color: #ffffff;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .info-textarea:focus {
+            border-color: var(--accent-crimson);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 0 12px var(--accent-glow);
+        }
+        .info-tip {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-tip i { color: var(--accent-crimson); }
 
         /* ================= STORAGE VAULT VIEW ================= */
         .vault-sections-container {
@@ -403,86 +438,50 @@
             gap: 15px;
             margin-top: 30px;
         }
-
-        /* ================= STATION AUDIO DECK ================= */
-        .audio-deck {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 20px;
-        }
-        .deck-art { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; }
-        .deck-details { flex-grow: 1; overflow: hidden; text-align: left; }
-        .deck-track {
-            font-size: 0.8rem; font-weight: 700; color: #fff;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .deck-controls { display: flex; gap: 12px; margin-top: 4px; }
-        .deck-icon { cursor: pointer; color: var(--text-muted); font-size: 0.8rem; transition: color 0.2s; }
-        .deck-icon:hover { color: #fff; }
-        .deck-icon.active { color: var(--accent-crimson); }
-        
-        /* Audio Player Element Hidden */
-        #audio-element { display: none; }
     </style>
 </head>
 <body>
 
     <video autoplay loop muted playsinline class="video-canvas-local">
-        <source src="Video Project 31.mp4" type="video/mp4">
+        <source src="Background1.mp4" type="video/mp4">
     </video>
     
     <canvas id="star-field"></canvas>
     
     <div class="vignette"></div>
 
-    <audio id="audio-element" src="" preload="auto"></audio>
-
     <div class="command-dock">
-        <div class="top-dock-group">
-            <div class="brand-block">
-                <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-                <div class="brand-text">EWC // <span>System</span></div>
-            </div>
-            
-            <div class="dock-menu">
-                <div class="menu-label">Main Matrix</div>
-                
-                <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
-                    <i class="fa-solid fa-layer-group"></i> All Weapons
-                </button>
-                <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')">
-                    <i class="fa-solid fa-diamond"></i> S Tier Weapons
-                </button>
-                <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')">
-                    <i class="fa-solid fa-award"></i> A Tier Weapons
-                </button>
-                <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')">
-                    <i class="fa-solid fa-star"></i> B Tier Weapons
-                </button>
-                <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')">
-                    <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
-                </button>
-                
-                <div class="menu-label">Modules</div>
-                <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
-                    <i class="fa-solid fa-clover"></i> Faction Drop
-                </button>
-            </div>
+        <div class="brand-block">
+            <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+            <div class="brand-text">EWC // <span>System</span></div>
         </div>
-
-        <div class="audio-deck">
-            <img src="" id="m-art" class="deck-art" alt="Feed" onerror="this.src='https://via.placeholder.com/50/000?text=Audio'">
-            <div class="deck-details">
-                <div class="deck-track" id="m-title">Loading Stream...</div>
-                <div class="deck-controls">
-                    <i class="fas fa-backward deck-icon" onclick="changeSong(-1)"></i>
-                    <i class="fas fa-play deck-icon" id="play-btn" onclick="togglePlay()"></i>
-                    <i class="fas fa-forward deck-icon" onclick="changeSong(1)"></i>
-                    <i class="fas fa-volume-xmark deck-icon" id="mute-btn" onclick="toggleMute()" style="margin-left:auto;"></i>
-                </div>
-            </div>
+        
+        <div class="dock-menu">
+            <div class="menu-label">Main Matrix</div>
+            
+            <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
+                <i class="fa-solid fa-layer-group"></i> All Weapons
+            </button>
+            <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')">
+                <i class="fa-solid fa-diamond"></i> S Tier Weapons
+            </button>
+            <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')">
+                <i class="fa-solid fa-award"></i> A Tier Weapons
+            </button>
+            <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')">
+                <i class="fa-solid fa-star"></i> B Tier Weapons
+            </button>
+            <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')">
+                <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
+            </button>
+            
+            <div class="menu-label">Modules</div>
+            <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
+                <i class="fa-solid fa-clover"></i> Faction Drop
+            </button>
+            <button class="dock-btn" id="btn-info" onclick="switchInterface('info-panel')">
+                <i class="fa-solid fa-circle-info"></i> Info Hub
+            </button>
         </div>
     </div>
 
@@ -499,10 +498,10 @@
             <div class="spin-interface">
                 <div class="config-panel">
                     <select id="spinTierSelect" class="selector-box">
-                        <option value="test">C Tier</option>
-                        <option value="tier1">B Tier</option>
-                        <option value="tier15">A Tier</option>
-                        <option value="tier2">S Tier</option>
+                        <option value="test">C Tier (Test Drop)</option>
+                        <option value="tier1">B Tier (Tier 1)</option>
+                        <option value="tier15">A Tier (Tier 1.5)</option>
+                        <option value="tier2">S Tier (Tier 2)</option>
                     </select>
                     <button class="action-btn" id="masterSpinBtn" onclick="processFullDrop()">Initialize Sequence</button>
                 </div>
@@ -514,6 +513,22 @@
 
                 <div id="spin-log">System Standing By...</div>
                 <div id="loot-manifest"></div>
+            </div>
+        </div>
+
+        <div id="info-panel" class="panel-box">
+            <h2 class="panel-title"><i class="fa-solid fa-terminal"></i> Database Information Hub</h2>
+            <div class="info-editor-container">
+                <textarea class="info-textarea" placeholder="Enter system documentation, event rules, or server updates here...">Welcome to EWC Tactical Hub.
+
+[System Status: Active]
+[Current Version: 1.0.4]
+
+Use the Armory Vault filters on the left panel to browse database assets, or engage the Tactical Drop Engine to run standard weapon drop simulations.</textarea>
+                <div class="info-tip">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>This workspace is fully interactive. Type directly inside the terminal box to modify system documentation layout live.</span>
+                </div>
             </div>
         </div>
 
@@ -546,10 +561,8 @@
         tier2: { label: "S Tier (Tier 2)", style: "s" }
     };
 
-    // Initialize core structural functions
     window.addEventListener('DOMContentLoaded', () => {
         buildStorageVault();
-        initAudioEngine();
         initStarFieldEngine();
     });
 
@@ -598,7 +611,6 @@
 
                 ctx.save();
                 ctx.globalAlpha = s.opacity;
-                
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = tacticalRed;
                 
@@ -631,11 +643,13 @@
         // Highlight correct active button
         if (targetPanelId === 'spin-panel') {
             document.getElementById('btn-spin').classList.add('active');
+        } else if (targetPanelId === 'info-panel') {
+            document.getElementById('btn-info').classList.add('active');
         } else if (activeFilter) {
             document.getElementById(`btn-${activeFilter}`).classList.add('active');
         }
 
-        // Apply visual category filtering to the armory vault pools
+        // Apply filtering logic to the main armory container layers
         if (targetPanelId === 'vault-panel') {
             const sections = document.querySelectorAll('.vault-section');
             sections.forEach(sec => {
@@ -652,7 +666,7 @@
         }
     }
 
-    // ================= RECONSTRUCTED VAULT GENERATOR =================
+    // ================= VAULT RENDER MATRIX =================
     function buildStorageVault() {
         const vaultContainer = document.getElementById('vault-dynamic-dump');
         vaultContainer.innerHTML = "";
@@ -685,7 +699,7 @@
         });
     }
 
-    // ================= ROTATION WHEEL LOGIC MODULE =================
+    // ================= DROP WHEEL ROULETTE LOGIC MODULE =================
     function buildReel(targetPool, winner) {
         const reel = document.getElementById('reel');
         reel.innerHTML = "";
@@ -772,65 +786,6 @@
                 resolve();
             }, 3400);
         });
-    }
-
-    // ================= AUDIO MODULE ENGINE =================
-    const playlist = [
-        { src: 'audio/track1.mp3', title: 'Triple 3 - Quan Getem Gone', art: 'images/art1.jpg' },
-        { src: 'audio/track2.mp3', title: 'Button Land - Lil Scoom89', art: 'images/art2.jpg' },
-        { src: 'audio/track3.mp3', title: 'Murder - LA Capone', art: 'images/art3.jpg' }
-    ];
-
-    let currentIdx = 0;
-    let audioEl;
-
-    function initAudioEngine() {
-        audioEl = document.getElementById('audio-element');
-        if(playlist.length > 0) {
-            currentIdx = Math.floor(Math.random() * playlist.length);
-            loadTrack(currentIdx);
-        }
-        
-        audioEl.addEventListener('ended', () => {
-            changeSong(1);
-        });
-    }
-
-    function loadTrack(idx) {
-        audioEl.src = playlist[idx].src;
-        document.getElementById('m-title').innerText = playlist[idx].title;
-        document.getElementById('m-art').src = playlist[idx].art;
-    }
-
-    function togglePlay() {
-        const playBtn = document.getElementById('play-btn');
-        if (audioEl.paused) {
-            audioEl.play().catch(e => console.log("User interaction required for autoplay"));
-            playBtn.className = "fas fa-pause deck-icon active";
-        } else {
-            audioEl.pause();
-            playBtn.className = "fas fa-play deck-icon";
-        }
-    }
-
-    function changeSong(dir) {
-        currentIdx = (currentIdx + dir + playlist.length) % playlist.length;
-        loadTrack(currentIdx);
-        audioEl.play().then(() => {
-            document.getElementById('play-btn').className = "fas fa-pause deck-icon active";
-        }).catch(err => {
-            document.getElementById('play-btn').className = "fas fa-play deck-icon";
-        });
-    }
-
-    function toggleMute() {
-        const muteBtn = document.getElementById('mute-btn');
-        audioEl.muted = !audioEl.muted;
-        if (audioEl.muted) {
-            muteBtn.className = "fas fa-volume-xmark deck-icon active";
-        } else {
-            muteBtn.className = "fas fa-volume-high deck-icon";
-        }
     }
     </script>
 </body>
