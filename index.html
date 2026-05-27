@@ -68,16 +68,17 @@
         }
 
         .dock-top-content { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
-        .brand-block { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 0, 60, 0.2); margin-bottom: 15px; flex-shrink: 0; }
         
-        /* GLOWING LOGO STYLES */
+        /* Updated Brand Block - Centered and Cleaned */
+        .brand-block { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 0, 60, 0.2); margin-bottom: 20px; flex-shrink: 0; }
+        
         .glowing-logo-wrapper {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 15px auto;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
             border-radius: 50%;
             border: 2px solid var(--accent-crimson);
-            box-shadow: 0 0 15px var(--accent-crimson), inset 0 0 10px var(--accent-crimson);
+            box-shadow: 0 0 20px var(--accent-crimson), inset 0 0 10px var(--accent-crimson);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,9 +86,6 @@
             background: rgba(0,0,0,0.3);
         }
         .brand-logo { width: 100%; height: auto; border-radius: 50%; }
-
-        .brand-text { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: 0.1em; color: #fff; text-transform: uppercase; }
-        .brand-text span { color: var(--accent-crimson); }
 
         .dock-menu { display: flex; flex-direction: column; gap: 6px; flex-grow: 1; overflow-y: auto; padding-right: 5px; }
         .dock-menu::-webkit-scrollbar { width: 3px; }
@@ -160,7 +158,6 @@
                 <div class="glowing-logo-wrapper">
                     <img src="images/2.jpg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
                 </div>
-                <div class="brand-text">Chicago<span>NewGen</span></div>
             </div>
             
             <div class="dock-menu">
