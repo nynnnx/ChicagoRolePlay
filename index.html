@@ -543,11 +543,10 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // CHANGED: File path extension targeted explicitly as a .png image asset
+        // FIXED: The engine now targets the 'images/' folder directory perfectly
         const starImg = new Image();
-        starImg.src = '2.png'; 
+        starImg.src = 'images/2.png'; 
 
-        // Glowing backdrop configurations
         const activeTiers = ['#ff003c', '#ff5500', '#ffaa00', '#888888', '#ffffff'];
         const starCount = 30; 
         const stars = [];
@@ -579,15 +578,12 @@
                 ctx.save();
                 ctx.globalAlpha = s.opacity;
                 
-                // Neon atmospheric background glow behind the logo texture
                 ctx.shadowBlur = 15;
                 ctx.shadowColor = s.color;
                 
-                // Drawing the uploaded logo frame directly
                 if (starImg.complete) {
                     ctx.drawImage(starImg, s.x - s.size/2, s.y - s.size/2, s.size, s.size);
                 } else {
-                    // Fallback to simple circle draw if image file path can't be resolved right away
                     ctx.fillStyle = s.color;
                     ctx.beginPath();
                     ctx.arc(s.x, s.y, s.size / 4, 0, Math.PI * 2);
@@ -598,7 +594,16 @@
             }
             requestAnimationFrame(renderEngine);
         }
-        renderEngine();
+
+        // Delay loop safely until the image asset drops cleanly inside memory cache
+        starImg.onload = () => {
+            renderEngine();
+        };
+
+        starImg.onerror = () => {
+            console.error("CRITICAL: System could not locate the file at 'images/2.png'. Check your folder placements!");
+            renderEngine();
+        };
     }
 
     // ================= DOCK PANEL CONTROLLER =================
