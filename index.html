@@ -10,7 +10,7 @@
         /* ================= THEME STYLING CONFIG ================= */
         :root {
             --bg-dark-base: #060608;
-            --bg-panel: rgba(12, 12, 16, 0.85);
+            --bg-panel: rgba(12, 12, 16, 0.88);
             --accent-crimson: #ff003c;
             --accent-glow: rgba(255, 0, 60, 0.4);
             
@@ -38,25 +38,22 @@
             display: flex;
         }
 
-        /* Ambient Cyber Backdrop */
-        .video-canvas {
+        /* Ambient Dynamic GIF Backdrop */
+        .gif-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2;
-            opacity: 0.15;
+            opacity: 0.12;
             pointer-events: none;
-            overflow: hidden;
-        }
-        .video-canvas iframe {
-            width: 100vw; height: 56.25vw;
-            min-height: 100vh; min-width: 177.77vh;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1.1);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: background-image 1.2s ease-in-out;
         }
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 30%, #000000 95%);
+            background: radial-gradient(circle at center, transparent 20%, #000000 90%);
             z-index: -1;
             pointer-events: none;
         }
@@ -134,7 +131,6 @@
             color: #fff;
             background: linear-gradient(90deg, rgba(255, 0, 60, 0.15), transparent);
             border-left-color: var(--accent-crimson);
-            border-top-solid: 1px rgba(255, 0, 60, 0.2);
             box-shadow: inset 5px 0 10px rgba(255, 0, 60, 0.05);
         }
         .dock-btn.active {
@@ -249,7 +245,7 @@
             text-align: center;
         }
 
-        /* Tier Specific Colors */
+        /* Tier Colors */
         .card-s { border-top-color: var(--tier-s); }
         .card-a { border-top-color: var(--tier-a); }
         .card-b { border-top-color: var(--tier-b); }
@@ -383,13 +379,19 @@
         .deck-icon { cursor: pointer; color: var(--text-muted); font-size: 0.8rem; transition: color 0.2s; }
         .deck-icon:hover { color: #fff; }
         .deck-icon.active { color: var(--accent-crimson); }
+        
+        /* Audio Player Element Hidden */
+        #audio-element { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Environment Configurations -->
-    <div class="video-canvas"><div id="player"></div></div>
+    <!-- Dynamic GIF Background canvas frame -->
+    <div id="gif-background" class="gif-canvas"></div>
     <div class="vignette"></div>
+
+    <!-- Hidden Audio System Engine Element -->
+    <audio id="audio-element" src="" preload="auto"></audio>
 
     <!-- Left Command Navigation Bar -->
     <div class="command-dock">
@@ -410,9 +412,9 @@
             </div>
         </div>
 
-        <!-- Integrated Audio Sub-Module -->
+        <!-- Integrated Local Audio Sub-Module -->
         <div class="audio-deck">
-            <img src="" id="m-art" class="deck-art" alt="Feed">
+            <img src="" id="m-art" class="deck-art" alt="Feed" onerror="this.src='https://via.placeholder.com/50/000?text=Audio'">
             <div class="deck-details">
                 <div class="deck-track" id="m-title">Loading Stream...</div>
                 <div class="deck-controls">
@@ -464,8 +466,30 @@
     </div>
 
     <!-- System Architect Scripts -->
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+    // ================= DYNAMIC GIF BACKDROP ROTATOR =================
+    // Drop your direct link animated URLs into this pool array
+    const gifPool = [
+        "images/background1.gif",
+        "images/background2.gif",
+        "images/background3.gif"
+    ];
+    let currentGifIdx = 0;
+
+    function initGifStreaming() {
+        const bgNode = document.getElementById('gif-background');
+        if (gifPool.length > 0) {
+            // Set first background image immediately
+            bgNode.style.backgroundImage = `url('${gifPool[currentGifIdx]}')`;
+            
+            // Optional: Rotate the ambient GIF loop every 60 seconds
+            setInterval(() => {
+                currentGifIdx = (currentGifIdx + 1) % gifPool.length;
+                bgNode.style.backgroundImage = `url('${gifPool[currentGifIdx]}')`;
+            }, 60000);
+        }
+    }
+
     // ================= INTEGRATED DATABASE ARCHETYPE =================
     const DB = {
         test: [{name:"Sentinel", img:"images/Sentinel.png"}, {name:"Glock19X Tan", img:"images/Glock19XTan.png"}, {name:"Glock 22", img:"images/Glock 22.png"}, {name:"G365X", img:"images/G365X.png"}],
@@ -487,18 +511,19 @@
     const ITEM_WIDTH = 180;
     let lastWonWeaponName = "";
 
-    // Mapping keys explicitly to clean text display and colors
     const tierMeta = {
-        test: { label: "C Tier", style: "c" },
-        tier1: { label: "B Tier", style: "b" },
-        tier15: { label: "A Tier", style: "a" },
-        tier2: { label: "S Tier", style: "s" },
+        test: { label: "C Tier (Test Drop)", style: "c" },
+        tier1: { label: "B Tier (Tier 1)", style: "b" },
+        tier15: { label: "A Tier (Tier 1.5)", style: "a" },
+        tier2: { label: "S Tier (Tier 2)", style: "s" },
         attachments: { label: "Attachments", style: "att" }
     };
 
-    // Initialize System Core
+    // Initialize core structural functions
     window.addEventListener('DOMContentLoaded', () => {
         buildStorageVault();
+        initGifStreaming();
+        initAudioEngine();
     });
 
     // ================= DOCK PANEL CONTROLLER =================
@@ -508,7 +533,6 @@
         
         document.getElementById(targetPanelId).classList.add('active-panel');
         
-        // Active visual styling state change trigger
         const clickedBtn = Array.from(document.querySelectorAll('.dock-btn')).find(b => b.getAttribute('onclick').includes(targetPanelId));
         if(clickedBtn) clickedBtn.classList.add('active');
     }
@@ -521,7 +545,6 @@
         Object.keys(tierMeta).forEach(key => {
             const section = document.createElement('div');
             section.className = "vault-section";
-            
             const meta = tierMeta[key];
             
             let htmlStr = `
@@ -586,10 +609,8 @@
             const reel = document.getElementById('reel');
             const viewport = document.querySelector('.wheel-viewport');
             const tray = document.getElementById('loot-manifest');
-            const meta = tierMeta[tier];
             
             let spinPool = [...DB[tier]];
-            // Inheritance balancing matrices
             if (tier === 'tier1') spinPool.push(...DB.tier0.filter(w => CROSS_TIER_LOGIC.tier1.includes(w.name)));
             else if (tier === 'tier15') spinPool.push(...DB.tier1.filter(w => CROSS_TIER_LOGIC.tier15.includes(w.name)));
             else if (tier === 'tier2') spinPool.push(...DB.tier15.filter(w => CROSS_TIER_LOGIC.tier2.includes(w.name)));
@@ -625,11 +646,10 @@
                 }
 
                 const p = document.createElement('div');
-                p.className = `reward-pill`;
                 p.style.cssText = `
                     background: #0d0d12; border: 1px solid var(--accent-crimson);
                     padding: 12px; border-radius: 4px; width: 140px; text-align: center;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.5); animation: slideUp 0.4s ease forwards;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.5); animation: panelFade 0.4s ease forwards;
                 `;
                 p.innerHTML = `<img src="${winner.img}" style="width:100%; height:60px; object-fit:contain; margin-bottom:5px;" onerror="this.src='https://via.placeholder.com/150/111115/ff003c?text=Weapon'"><span style="display:block; font-size:0.75rem; font-family:var(--font-display); font-weight:700; text-transform:uppercase;">${winner.name}</span>`;
                 tray.appendChild(p);
@@ -638,74 +658,63 @@
         });
     }
 
-    // ================= AUDIO MODULE ENGINE =================
+    // ================= AUDIO AUDIO DECK AUDIO ENGINE =================
+    // Point the paths below to your local file audio directory storage
     const playlist = [
-        { id: 'P-t6zMIicF8', title: 'Quan Getem Gone x FullyChop x Q50 - Triple 3', art: 'https://i.ytimg.com/vi/P-t6zMIicF8/maxresdefault.jpg' },
-        { id: 'D49adOjVNcs', title: 'Lil Scoom89 - Button Land', art: 'https://i.ytimg.com/vi/D49adOjVNcs/maxresdefault.jpg' },
-        { id: 'Crz8OzEFCtM', title: 'LA Capone - Murder', art: 'https://i.ytimg.com/vi/Crz8OzEFCtM/maxresdefault.jpg' },
-        { id: 'SdRxE6mV3Ng', title: 'Babyy Walk - Flowers', art: 'https://i.ytimg.com/vi/SdRxE6mV3Ng/maxresdefault.jpg' },
-        { id: 'm87x04K3IPA', title: 'Meezy - Jada Juke', art: 'https://i.ytimg.com/vi/m87x04K3IPA/sddefault.jpg' },
-        { id: 'MGVvaHEY27Y', title: 'Lil Scoom89 - Nightcrawler', art: 'https://i.ytimg.com/vi/MGVvaHEY27Y/maxresdefault.jpg' },
-        { id: 'wS3CdFA9tFA', title: 'YFG Fatso - Dawg Baby', art: 'https://i.ytimg.com/vi/wS3CdFA9tFA/maxresdefault.jpg' },
-        { id: '4BQZ-YgVGsk', title: 'Chuckyy - My World', art: 'https://i.ytimg.com/vi/4BQZ-YgVGsk/maxresdefault.jpg' },
-        { id: '2mHDEqezA8I', title: 'YFG Fatso - Rylo Rod', art: 'https://i.ytimg.com/vi/2mHDEqezA8I/maxresdefault.jpg' },
-        { id: 'tdzZlnRkVL4', title: 'YFG Fatso - Remedy', art: 'https://i.ytimg.com/vi/tdzZlnRkVL4/maxresdefault.jpg' },
-        { id: 'GqYiG9YJ6Ig', title: 'Topoppgen - Cute Like Aspen', art: 'https://i.ytimg.com/vi/GqYiG9YJ6Ig/sddefault.jpg' },
-        { id: 'YNh0PriDYSo', title: 'Glockboy Stank x Lil Noonie - Shark Business', art: 'https://i.ytimg.com/vi/YNh0PriDYSo/maxresdefault.jpg' },
-        { id: 'RcHlcmiOmsI', title: 'Nardo Drillz x Glockboy Stank x Lil Noonie - 3 Headed Shark', art: 'https://i.ytimg.com/vi/RcHlcmiOmsI/maxresdefault.jpg' },
-        { id: 'u-IXlswneL4', title: '9BMEECHIE - PINK SWITCH', art: 'https://i.ytimg.com/vi/u-IXlswneL4/maxresdefault.jpg' },
-        { id: 'onzyIiMqqWM', title: '4Block Lil Mari - OK', art: 'https://i.ytimg.com/vi/onzyIiMqqWM/maxresdefault.jpg' },
-        { id: 'lD8-ffM6X2Q', title: 'BabyChiefDoit - The Viper', art: 'https://i.ytimg.com/vi/lD8-ffM6X2Q/maxresdefault.jpg' }
+        { src: 'audio/track1.mp3', title: 'Triple 3 - Quan Getem Gone', art: 'images/art1.jpg' },
+        { src: 'audio/track2.mp3', title: 'Button Land - Lil Scoom89', art: 'images/art2.jpg' },
+        { src: 'audio/track3.mp3', title: 'Murder - LA Capone', art: 'images/art3.jpg' }
     ];
 
-    let currentIdx = Math.floor(Math.random() * playlist.length);
-    let ytPlayer;
+    let currentIdx = 0;
+    let audioEl;
 
-    function onYouTubeIframeAPIReady() {
-        updateUI();
-        ytPlayer = new YT.Player('player', {
-            videoId: playlist[currentIdx].id,
-            playerVars: { 'autoplay': 1, 'controls': 0, 'mute': 1, 'loop': 0, 'rel': 0 },
-            events: { 
-                'onReady': (e) => e.target.playVideo(),
-                'onStateChange': (e) => { 
-                    if (e.data === YT.PlayerState.ENDED) changeSong(1); 
-                    updatePlayButtonState(e.data);
-                }
-            }
+    function initAudioEngine() {
+        audioEl = document.getElementById('audio-element');
+        if(playlist.length > 0) {
+            currentIdx = Math.floor(Math.random() * playlist.length);
+            loadTrack(currentIdx);
+        }
+        
+        audioEl.addEventListener('ended', () => {
+            changeSong(1);
         });
     }
 
-    function updateUI() {
-        document.getElementById('m-title').innerText = playlist[currentIdx].title;
-        document.getElementById('m-art').src = playlist[currentIdx].art;
+    function loadTrack(idx) {
+        audioEl.src = playlist[idx].src;
+        document.getElementById('m-title').innerText = playlist[idx].title;
+        document.getElementById('m-art').src = playlist[idx].art;
     }
 
-    function updatePlayButtonState(state) {
+    function togglePlay() {
         const playBtn = document.getElementById('play-btn');
-        if (state === YT.PlayerState.PLAYING) playBtn.className = "fas fa-pause deck-icon active";
-        else playBtn.className = "fas fa-play deck-icon";
+        if (audioEl.paused) {
+            audioEl.play().catch(e => console.log("User interaction required for autoplay"));
+            playBtn.className = "fas fa-pause deck-icon active";
+        } else {
+            audioEl.pause();
+            playBtn.className = "fas fa-play deck-icon";
+        }
     }
 
     function changeSong(dir) {
         currentIdx = (currentIdx + dir + playlist.length) % playlist.length;
-        ytPlayer.loadVideoById(playlist[currentIdx].id);
-        updateUI();
-    }
-
-    function togglePlay() {
-        if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) ytPlayer.pauseVideo();
-        else ytPlayer.playVideo();
+        loadTrack(currentIdx);
+        audioEl.play().then(() => {
+            document.getElementById('play-btn').className = "fas fa-pause deck-icon active";
+        }).catch(err => {
+            document.getElementById('play-btn').className = "fas fa-play deck-icon";
+        });
     }
 
     function toggleMute() {
         const muteBtn = document.getElementById('mute-btn');
-        if (ytPlayer.isMuted()) {
-            ytPlayer.unMute();
-            muteBtn.className = "fas fa-volume-high deck-icon";
-        } else {
-            ytPlayer.mute();
+        audioEl.muted = !audioEl.muted;
+        if (audioEl.muted) {
             muteBtn.className = "fas fa-volume-xmark deck-icon active";
+        } else {
+            muteBtn.className = "fas fa-volume-high deck-icon";
         }
     }
     </script>
