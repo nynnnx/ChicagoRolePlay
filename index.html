@@ -942,7 +942,7 @@
 
                 <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
 
-                <div class="brand-text">Chicago<span>RolePlay</span></div>
+                <div class="brand-text">ChicagoRoleplay<span>NewGen</span></div>
 
             </div>
 
@@ -1096,11 +1096,11 @@
 
     const DB = {
 
-        test: [{name:"Glock 17 P80", img:"images/Glock17P80C.png"}, {name:"Kavorka G43x", img:"images/KavorkaG43xC.png"}, {name:"Glock 45", img:"images/Glock45C.png"}, {name:"MP9 2.0", img:"images/MP9C.png"}, {name:"PSA Custom", img:"images/PSACustomC.png"}, {name:"Custom P320 Sig", img:"images/CustomP320C.png"}, {name:"FN 502 Tactical", img:"images/FN509C.png"}],
+        test: [{name:"Glock17 P80", img:"images/Glock17P80C.png"}, {name:"Kavorka G43x", img:"images/KavorkaG43xC.png"}, {name:"Glock45", img:"images/Glock45C.png"}, {name:"MP9 2.0", img:"images/MP9C.png"}, {name:"PSA Custom", img:"images/PSACustomC.png"}, {name:"Custom P320 Sig", img:"images/CustomP320C.png"}, {name:"FN 502 Tactical", img:"images/FN509C.png"}],
 
-        tier0: [{name:"1911", img:"images/1911.png"}, {name:"Glock 17", img:"images/Glockk17.png"}, {name:"Glock 40", img:"images/Glock40.png"}, {name:"PX4", img:"images/PX4.png"}, {name:"Glock 19Gen 5", img:"images/Glock19Gen5.png"}, {name:"Glock 21Gen 5", img:"images/Glock21Gen5.png"}],
+        tier0: [{name:"Glock19x Coyote", img:"images/Glock19xB.png"}, {name:"Glock45 Camo", img:"images/Glock45CamoB.png"}, {name:"Custom Glock17 Binary", img:"images/CustomGlock17B.png"}, {name:"Glock19 Gen5 Switch", img:"images/Glock19Gen5B.png"}, {name:"4 Inch Arp", img:"images/4InchB.png"},],
 
-        tier1: [{name:"Glock 17 Gen 5", img:"images/Glockk17Gen5.png"}, {name:"Glock 45", img:"images/Glock45.png"}, {name:"Glock 19x8", img:"images/Glock 19x8.png"}, {name:"Glock 19 GEN5", img:"images/Glockk19Gen5.png"}, {name:"Glock 17", img:"images/Glock17.png"}, {name:"Glock 17 Gen 3", img:"images/Glock17GEN5.png"}],
+        tier1: [{name:"Glock21C G-Flex", img:"images/Glock21C G-FlexA.png"}, {name:"Custom Dagger Switch", img:"images/Custom Dagger SwitchA.png"}, {name:"Glock45 Gen5 RedSwitch", img:"images/Glock45 Gen5 RedSwitchA.png"}, {name:"Glock19 Gen5 RedSwitch", img:"images/Glock19Gen5B.png"}, {name:"MP9 FRT", img:"images/MP9 FRTA.png"}, {name:"MPA Defender", img:"images/MPA DefenderA.png"}, {name:"Mini Arp", img:"images/Mini 762 ArpA.png"}, {name:"4 Inch Custom Arp", img:""}, {name:"Glock19 P80 Switch", img:"images/Glock19 P80 SwitchA.png"}],
 
         tier15: [{name:"3 inch Arp Tan", img:"images/3incharp.png"}, {name:"Psa Dagger", img:"images/PSADAGGER.png"}, {name:"Glock 19 FDE Gen 4", img:"images/G19FDEGEN4.png"}, {name:"Ruger Sr40", img:"images/Ruger.png"}, {name:"Glock 19XB", img:"images/Glock19XB.png"}],
 
@@ -1112,19 +1112,19 @@
 
     const CROSS_TIER_LOGIC = {
 
-        tier0: ["Sentinel", "G365X"],
+        tier0: ["", ""],
 
-        tier1: ["Glock 21Gen 5", "PX4"],
+        tier1: ["", ""],
 
-        tier15: ["Glock 19x8", "RMGlock 17Gen 3", "Glock 45", "RMGlock 17"],
+        tier15: ["", "", "", ""],
 
-        tier2: ["Ruger Sr40", "Glock 19XB"]
+        tier2: ["", ""]
 
     };
 
 
 
-    const config = { test: 2, tier1: 4, tier15: 5, tier2: 7 };
+    const config = { test: 2, tier1: 2, tier15: 2, tier2: 2 };
 
     const ITEM_WIDTH = 180;
 
