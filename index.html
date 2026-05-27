@@ -10,7 +10,6 @@
         /* ================= THEME STYLING CONFIG ================= */
         :root {
             --bg-dark-base: #060608;
-            /* CHANGED: Dropped opacity from 0.88 to 0.45 for clear backdrop visibility */
             --bg-panel: rgba(10, 10, 14, 0.45); 
             --accent-crimson: #ff003c;
             --accent-glow: rgba(255, 0, 60, 0.4);
@@ -35,11 +34,12 @@
             font-size: 17px;
             letter-spacing: 0.05em;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             display: flex;
         }
 
-        /* Ambient Local MP4 Backdrop */
+        /* Ambient Local MP4 Backdrop - Forced Fullscreen Cover */
         .video-canvas-local {
             position: fixed;
             top: 0; 
@@ -47,7 +47,6 @@
             width: 100vw; 
             height: 100vh;
             z-index: -2;
-            /* CHANGED: Boosted opacity significantly from 0.15 to 0.55 so you can clearly see it */
             opacity: 0.55; 
             pointer-events: none;
             object-fit: cover;
@@ -55,24 +54,28 @@
         
         .vignette {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* CHANGED: Softened vignette center to avoid dimming your video details */
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: radial-gradient(circle at center, transparent 40%, #000000 95%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* ================= SIDEBAR COMMAND DOCK ================= */
+        /* ================= SIDEBAR COMMAND DOCK (CLEAR & BLURRED) ================= */
         .command-dock {
             width: 280px;
-            background: #0a0a0d;
+            min-width: 280px;
+            height: 100vh;
+            /* CHANGED: Swapped solid dark for matching translucent tinted glass panel */
+            background: rgba(10, 10, 13, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-right: 2px solid var(--accent-crimson);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 25px;
             z-index: 10;
-            box-shadow: 5px 0 35px rgba(0,0,0,0.8);
+            box-shadow: 5px 0 35px rgba(0,0,0,0.6);
         }
 
         .brand-block {
@@ -113,7 +116,7 @@
             margin: 15px 0 5px 5px;
         }
         .dock-btn {
-            background: rgba(20, 20, 25, 0.5);
+            background: rgba(20, 20, 25, 0.4);
             border: 1px solid rgba(255,255,255,0.03);
             border-left: 3px solid transparent;
             color: var(--text-muted);
@@ -157,11 +160,9 @@
 
         .panel-box {
             background: var(--bg-panel);
-            /* CHANGED: Increased border definition for glass contrast */
             border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 12px;
             padding: 40px;
-            /* CHANGED: Decreased blur effect slightly from 15px to 8px so video shapes stay sharp behind it */
             backdrop-filter: blur(8px); 
             -webkit-backdrop-filter: blur(8px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.7);
@@ -219,7 +220,6 @@
             gap: 20px;
         }
         .weapon-card {
-            /* CHANGED: Made inventory tiles clean tinted glass slices */
             background: rgba(12, 12, 16, 0.7); 
             border: 1px solid rgba(255,255,255,0.05);
             border-top: 3px solid #333;
