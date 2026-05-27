@@ -10,7 +10,7 @@
         /* ================= THEME STYLING CONFIG ================= */
         :root {
             --bg-dark-base: #060608;
-            --bg-panel: rgba(10, 10, 14, 0.45); 
+            --bg-panel: rgba(10, 10, 14, 0.75); 
             --accent-crimson: #ff003c;
             --accent-glow: rgba(255, 0, 60, 0.4);
             
@@ -27,7 +27,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background: transparent;
+            background-color: var(--bg-dark-base);
             color: var(--text-main);
             font-family: var(--font-body);
             font-size: 17px;
@@ -39,15 +39,15 @@
             position: relative;
         }
 
-        /* Ambient Video Backdrop - Linked to correct asset name */
+        /* Ambient Video Backdrop */
         .video-canvas-local {
             position: fixed;
             top: 0; 
             left: 0; 
             width: 100vw; 
             height: 100vh;
-            z-index: -3;
-            opacity: 0.85; 
+            z-index: 1;
+            opacity: 0.45; 
             pointer-events: none;
             object-fit: cover;
         }
@@ -59,15 +59,15 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -2;
+            z-index: 2;
             pointer-events: none;
         }
         
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%);
-            z-index: -1;
+            background: radial-gradient(circle at center, transparent 30%, var(--bg-dark-base) 90%);
+            z-index: 3;
             pointer-events: none;
         }
 
@@ -76,28 +76,27 @@
             width: 280px;
             min-width: 280px;
             height: 100vh;
-            background: rgba(10, 10, 13, 0.65);
+            background: rgba(8, 8, 10, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-right: 2px solid var(--accent-crimson);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            padding: 25px;
+            justify-content: space-between;
+            padding: 20px;
             z-index: 10;
-            box-shadow: 5px 0 35px rgba(0,0,0,0.6);
+            box-shadow: 5px 0 35px rgba(0,0,0,0.8);
         }
 
         .brand-block {
             text-align: center;
-            padding-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 0, 60, 0.2);
-            margin-bottom: 15px;
         }
         .brand-logo {
-            width: 70px;
+            width: 65px;
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             filter: drop-shadow(0 0 8px var(--accent-glow));
         }
         .brand-text {
@@ -113,51 +112,90 @@
         .dock-menu {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
+            margin-top: 15px;
             flex-grow: 1;
             overflow-y: auto;
-            padding-right: 5px;
+            padding-right: 3px;
         }
         .dock-menu::-webkit-scrollbar { width: 3px; }
         .dock-menu::-webkit-scrollbar-thumb { background: rgba(255, 0, 60, 0.3); }
 
         .menu-label {
             font-family: var(--font-display);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            margin: 12px 0 5px 5px;
+            margin: 8px 0 4px 5px;
         }
         .dock-btn {
             background: rgba(20, 20, 25, 0.4);
             border: 1px solid rgba(255,255,255,0.03);
             border-left: 3px solid transparent;
             color: var(--text-muted);
-            padding: 10px 15px;
+            padding: 9px 12px;
             border-radius: 4px;
             font-family: var(--font-display);
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
             text-align: left;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             transition: all 0.2s ease;
         }
-        .dock-btn i { width: 18px; text-align: center; }
+        .dock-btn i { width: 16px; text-align: center; }
         .dock-btn:hover, .dock-btn.active {
             color: #fff;
             background: linear-gradient(90deg, rgba(255, 0, 60, 0.15), transparent);
             border-left-color: var(--accent-crimson);
-            box-shadow: inset 5px 0 10px rgba(255, 0, 60, 0.05);
         }
         .dock-btn.active {
-            background: linear-gradient(90deg, rgba(255, 0, 60, 0.3), transparent);
+            background: linear-gradient(90deg, rgba(255, 0, 60, 0.25), transparent);
             text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* ================= SIDEBAR COMPACT INFO DOCK ================= */
+        .sidebar-info-module {
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 0, 60, 0.2);
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .sidebar-info-title {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-crimson);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sidebar-info-textarea {
+            width: 100%;
+            height: 130px;
+            background: rgba(12, 12, 16, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            padding: 10px;
+            color: #ffffff;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        .sidebar-info-textarea:focus {
+            border-color: var(--accent-crimson);
         }
 
         /* ================= CENTRAL DISPLAY TERMINAL ================= */
@@ -169,9 +207,6 @@
             position: relative;
             z-index: 5;
         }
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-crimson); border-radius: 3px; }
 
         .panel-box {
             background: var(--bg-panel);
@@ -203,41 +238,6 @@
             padding-bottom: 15px;
         }
         .panel-title i { color: var(--accent-crimson); }
-
-        /* ================= SYSTEM INFO WORKSPACE ================= */
-        .info-editor-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .info-textarea {
-            width: 100%;
-            height: 350px;
-            background: rgba(12, 12, 16, 0.75);
-            border: 1px solid rgba(255, 0, 60, 0.25);
-            border-radius: 6px;
-            padding: 20px;
-            color: #ffffff;
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            resize: vertical;
-            outline: none;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .info-textarea:focus {
-            border-color: var(--accent-crimson);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 0 12px var(--accent-glow);
-        }
-        .info-tip {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .info-tip i { color: var(--accent-crimson); }
 
         /* ================= STORAGE VAULT VIEW ================= */
         .vault-sections-container {
@@ -306,30 +306,15 @@
             text-align: center;
         }
 
-        /* Tier Border & Hover Glow Configurations */
+        /* Tier Configs */
         .card-s { border-top-color: var(--tier-s); }
-        .card-s:hover {
-            border-color: rgba(255, 0, 60, 0.6);
-            box-shadow: 0 0 25px rgba(255, 0, 60, 0.45);
-        }
-
+        .card-s:hover { border-color: rgba(255, 0, 60, 0.6); box-shadow: 0 0 25px rgba(255, 0, 60, 0.45); }
         .card-a { border-top-color: var(--tier-a); }
-        .card-a:hover {
-            border-color: rgba(255, 85, 0, 0.6);
-            box-shadow: 0 0 25px rgba(255, 85, 0, 0.45);
-        }
-
+        .card-a:hover { border-color: rgba(255, 85, 0, 0.6); box-shadow: 0 0 25px rgba(255, 85, 0, 0.45); }
         .card-b { border-top-color: var(--tier-b); }
-        .card-b:hover {
-            border-color: rgba(255, 170, 0, 0.6);
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.45);
-        }
-
+        .card-b:hover { border-color: rgba(255, 170, 0, 0.6); box-shadow: 0 0 25px rgba(255, 170, 0, 0.45); }
         .card-c { border-top-color: var(--tier-c); }
-        .card-c:hover {
-            border-color: rgba(136, 136, 136, 0.6);
-            box-shadow: 0 0 25px rgba(136, 136, 136, 0.45);
-        }
+        .card-c:hover { border-color: rgba(136, 136, 136, 0.6); box-shadow: 0 0 25px rgba(136, 136, 136, 0.45); }
 
         .bg-s { background: var(--tier-s); }
         .bg-a { background: var(--tier-a); }
@@ -444,6 +429,7 @@
 
     <video autoplay loop muted playsinline class="video-canvas-local">
         <source src="Background1.mp4" type="video/mp4">
+        <source src="Video Project 31.mp4" type="video/mp4">
     </video>
     
     <canvas id="star-field"></canvas>
@@ -451,37 +437,45 @@
     <div class="vignette"></div>
 
     <div class="command-dock">
-        <div class="brand-block">
-            <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-            <div class="brand-text">EWC // <span>System</span></div>
+        <div style="display: flex; flex-direction: column; height: calc(100% - 170px);">
+            <div class="brand-block">
+                <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+                <div class="brand-text">EWC // <span>System</span></div>
+            </div>
+            
+            <div class="dock-menu">
+                <div class="menu-label">Main Matrix</div>
+                
+                <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
+                    <i class="fa-solid fa-layer-group"></i> All Weapons
+                </button>
+                <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')">
+                    <i class="fa-solid fa-diamond"></i> S Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')">
+                    <i class="fa-solid fa-award"></i> A Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')">
+                    <i class="fa-solid fa-star"></i> B Tier Weapons
+                </button>
+                <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')">
+                    <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
+                </button>
+                
+                <div class="menu-label">Modules</div>
+                <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
+                    <i class="fa-solid fa-clover"></i> Faction Drop
+                </button>
+            </div>
         </div>
-        
-        <div class="dock-menu">
-            <div class="menu-label">Main Matrix</div>
-            
-            <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
-                <i class="fa-solid fa-layer-group"></i> All Weapons
-            </button>
-            <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')">
-                <i class="fa-solid fa-diamond"></i> S Tier Weapons
-            </button>
-            <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')">
-                <i class="fa-solid fa-award"></i> A Tier Weapons
-            </button>
-            <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')">
-                <i class="fa-solid fa-star"></i> B Tier Weapons
-            </button>
-            <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')">
-                <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
-            </button>
-            
-            <div class="menu-label">Modules</div>
-            <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
-                <i class="fa-solid fa-clover"></i> Faction Drop
-            </button>
-            <button class="dock-btn" id="btn-info" onclick="switchInterface('info-panel')">
-                <i class="fa-solid fa-circle-info"></i> Info Hub
-            </button>
+
+        <div class="sidebar-info-module">
+            <div class="sidebar-info-title">
+                <i class="fa-solid fa-terminal"></i> Info Terminal
+            </div>
+            <textarea class="sidebar-info-textarea" placeholder="Type patch logs or system instructions here...">System Status: Active
+Version: 1.0.4
+EWC Core Terminal Online. Click weapon filters above to sort active inventory registry.</textarea>
         </div>
     </div>
 
@@ -513,22 +507,6 @@
 
                 <div id="spin-log">System Standing By...</div>
                 <div id="loot-manifest"></div>
-            </div>
-        </div>
-
-        <div id="info-panel" class="panel-box">
-            <h2 class="panel-title"><i class="fa-solid fa-terminal"></i> Database Information Hub</h2>
-            <div class="info-editor-container">
-                <textarea class="info-textarea" placeholder="Enter system documentation, event rules, or server updates here...">Welcome to EWC Tactical Hub.
-
-[System Status: Active]
-[Current Version: 1.0.4]
-
-Use the Armory Vault filters on the left panel to browse database assets, or engage the Tactical Drop Engine to run standard weapon drop simulations.</textarea>
-                <div class="info-tip">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>This workspace is fully interactive. Type directly inside the terminal box to modify system documentation layout live.</span>
-                </div>
             </div>
         </div>
 
@@ -640,16 +618,12 @@ Use the Armory Vault filters on the left panel to browse database assets, or eng
         
         document.getElementById(targetPanelId).classList.add('active-panel');
         
-        // Highlight correct active button
         if (targetPanelId === 'spin-panel') {
             document.getElementById('btn-spin').classList.add('active');
-        } else if (targetPanelId === 'info-panel') {
-            document.getElementById('btn-info').classList.add('active');
         } else if (activeFilter) {
             document.getElementById(`btn-${activeFilter}`).classList.add('active');
         }
 
-        // Apply filtering logic to the main armory container layers
         if (targetPanelId === 'vault-panel') {
             const sections = document.querySelectorAll('.vault-section');
             sections.forEach(sec => {
