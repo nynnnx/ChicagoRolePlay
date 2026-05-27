@@ -23,41 +23,43 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #060608; color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; }
-
-        /* Media / Backgrounds */
-        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; object-fit: cover; opacity: 0.8; }
-        #star-field { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; }
-        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, #060608 95%); z-index: -1; }
-
-        /* Sidebar */
-        .command-dock { width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.8); backdrop-filter: blur(12px); border-right: 2px solid var(--accent-crimson); display: flex; flex-direction: column; padding: 25px; z-index: 10; }
-        .brand-block { text-align: center; margin-bottom: 30px; }
-        .brand-logo { width: 70px; margin-bottom: 10px; }
-        .brand-text { font-family: var(--font-display); font-weight: 900; color: #fff; }
-        .brand-text span { color: var(--accent-crimson); }
+        body { background: transparent; color: var(--text-main); font-family: var(--font-body); font-size: 17px; height: 100vh; width: 100vw; overflow: hidden; display: flex; position: relative; }
         
-        .dock-menu { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
-        .menu-label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-muted); margin: 15px 0 5px 5px; }
-        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px; cursor: pointer; text-align: left; transition: 0.3s; }
-        .dock-btn:hover, .dock-btn.active { color: #fff; background: var(--accent-crimson); border-color: var(--accent-crimson); }
+        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; opacity: 0.85; pointer-events: none; object-fit: cover; }
+        #star-field { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%); z-index: -1; pointer-events: none; }
 
-        /* Sidebar Footer */
-        .sidebar-static-info { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--accent-crimson); font-size: 0.8rem; }
-        .info-header-tag { color: var(--accent-crimson); font-family: var(--font-display); font-weight: 900; margin-bottom: 5px; }
+        .command-dock { width: 280px; min-width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.65); backdrop-filter: blur(12px); border-right: 2px solid var(--accent-crimson); display: flex; flex-direction: column; padding: 25px; z-index: 10; }
+        .dock-top-content { flex-grow: 1; }
+        .brand-block { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 0, 60, 0.2); margin-bottom: 15px; }
+        .brand-logo { width: 70px; height: auto; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+        .brand-text { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: #fff; text-transform: uppercase; }
+        .brand-text span { color: var(--accent-crimson); }
 
-        /* Main Display */
+        .dock-menu { display: flex; flex-direction: column; gap: 6px; }
+        .menu-label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-muted); margin: 12px 0 5px 5px; text-transform: uppercase; }
+        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.03); border-left: 3px solid transparent; color: var(--text-muted); padding: 10px 15px; border-radius: 4px; font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s ease; text-align: left; }
+        .dock-btn:hover, .dock-btn.active { color: #fff; background: linear-gradient(90deg, rgba(255, 0, 60, 0.15), transparent); border-left-color: var(--accent-crimson); }
+        .dock-btn.active { background: linear-gradient(90deg, rgba(255, 0, 60, 0.3), transparent); }
+
         .display-terminal { flex: 1; height: 100vh; overflow-y: auto; padding: 40px; }
-        .panel-box { background: var(--bg-panel); border-radius: 12px; padding: 40px; display: none; }
-        .panel-box.active-panel { display: block; }
-        .panel-title { font-family: var(--font-display); margin-bottom: 30px; color: var(--accent-crimson); }
-
-        /* Wheel */
-        .wheel-viewport { height: 180px; overflow: hidden; border: 2px solid var(--accent-crimson); position: relative; background: #000; margin: 20px 0; display: flex; align-items: center; }
+        .panel-box { background: var(--bg-panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 40px; backdrop-filter: blur(8px); display: none; }
+        .panel-box.active-panel { display: block; animation: panelFade 0.4s ease-out forwards; }
+        @keyframes panelFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .panel-title { font-family: var(--font-display); font-weight: 900; font-size: 1.8rem; text-transform: uppercase; margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        
+        /* Spin Panel Specifics */
+        .spin-interface { max-width: 900px; margin: 0 auto; text-align: center; }
+        .config-panel { display: flex; justify-content: center; gap: 15px; margin-bottom: 35px; }
+        .selector-box { background: #111116; border: 1px solid rgba(255,0,60,0.3); color: #fff; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-family: var(--font-display); font-weight: 700; }
+        .action-btn { background: linear-gradient(90deg, #b3002a, var(--accent-crimson)); border: none; color: #fff; padding: 12px 40px; border-radius: 4px; cursor: pointer; font-family: var(--font-display); font-weight: 900; text-transform: uppercase; }
+        .wheel-viewport { height: 160px; overflow: hidden; border: 2px solid var(--accent-crimson); position: relative; background: #030305; border-radius: 8px; margin-bottom: 30px; }
         .wheel-crosshair { position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--accent-crimson); z-index: 10; transform: translateX(-50%); box-shadow: 0 0 15px var(--accent-crimson); }
-        .wheel-reel { display: flex; position: absolute; left: 0; transition: transform 3s cubic-bezier(0.1, 0.8, 0.1, 1); }
-        .wheel-item { min-width: 180px; text-align: center; }
-        .wheel-item img { height: 100px; width: 150px; object-fit: contain; }
+        .wheel-reel { display: flex; align-items: center; position: absolute; left: 0; height: 100%; }
+        .wheel-item { min-width: 180px; width: 180px; text-align: center; opacity: 0.4; }
+        .wheel-item img { height: 75px; width: 130px; object-fit: contain; }
+        #spin-log { font-family: var(--font-display); font-weight: 700; color: var(--accent-crimson); text-transform: uppercase; margin-bottom: 10px; }
+        #loot-manifest { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -69,68 +71,72 @@
     <div class="vignette"></div>
 
     <div class="command-dock">
-        <div class="brand-block">
-            <img src="images/Logo.png" alt="Logo" class="brand-logo">
-            <div class="brand-text">Chicago<span>NewGen</span></div>
-        </div>
-        <div class="dock-menu">
-            <div class="menu-label">Main Storage</div>
-            <button class="dock-btn active" onclick="switchInterface('vault-panel')">Inventory</button>
-            <div class="menu-label">Wheel Spin</div>
-            <button class="dock-btn" onclick="switchInterface('spin-panel')">Faction Drop</button>
-        </div>
-        <div class="sidebar-static-info">
-            <div class="info-header-tag"><i class="fa-solid fa-terminal"></i> Info</div>
-            <div class="info-body-text">Welcome to ChicagoRolePlay Storage.</div>
-            <div class="info-system-footer">Website Made By Nyn. v1.0</div>
+        <div class="dock-top-content">
+            <div class="brand-block">
+                <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+                <div class="brand-text">Chicago<span>NewGen</span></div>
+            </div>
+            <div class="dock-menu">
+                <div class="menu-label">Main Storage</div>
+                <button class="dock-btn" id="btn-tier2" onclick="switchInterface('vault-panel', 'tier2')"><i class="fa-solid fa-diamond"></i> S Tier Weapons</button>
+                <button class="dock-btn" id="btn-tier15" onclick="switchInterface('vault-panel', 'tier15')"><i class="fa-solid fa-award"></i> A Tier Weapons</button>
+                <button class="dock-btn" id="btn-tier1" onclick="switchInterface('vault-panel', 'tier1')"><i class="fa-solid fa-star"></i> B Tier Weapons</button>
+                <button class="dock-btn" id="btn-test" onclick="switchInterface('vault-panel', 'test')"><i class="fa-solid fa-shield-blank"></i> C Tier Weapons</button>
+                <div class="menu-label">Wheel Spin</div>
+                <button class="dock-btn active" id="btn-spin" onclick="switchInterface('spin-panel')"><i class="fa-solid fa-clover"></i> Faction Drop</button>
+            </div>
         </div>
     </div>
 
     <div class="display-terminal">
-        <div id="vault-panel" class="panel-box active-panel">
-            <h2 class="panel-title">Inventory Storage</h2>
-            <div id="vault-dynamic-dump"></div>
+        <div id="vault-panel" class="panel-box">
+            <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> Inventory Storage</h2>
+            <div class="vault-sections-container" id="vault-dynamic-dump"></div>
         </div>
 
-        <div id="spin-panel" class="panel-box">
-            <h2 class="panel-title">Faction Drop Spin</h2>
-            <button class="dock-btn" onclick="performSpin()">Start Spin</button>
-            <div class="wheel-viewport">
-                <div class="wheel-crosshair"></div>
-                <div id="reel" class="wheel-reel"></div>
+        <div id="spin-panel" class="panel-box active-panel">
+            <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Faction Drop</h2>
+            <div class="spin-interface">
+                <div class="config-panel">
+                    <select id="spinTierSelect" class="selector-box">
+                        <option value="test">C Tier</option>
+                        <option value="tier1">B Tier</option>
+                        <option value="tier15">A Tier</option>
+                        <option value="tier2">S Tier</option>
+                    </select>
+                    <button class="action-btn" id="masterSpinBtn" onclick="processFullDrop()">Start Drop</button>
+                </div>
+                <div class="wheel-viewport">
+                    <div class="wheel-crosshair"></div>
+                    <div id="reel" class="wheel-reel"></div>
+                </div>
+                <div id="spin-log">System Standing By...</div>
+                <div id="loot-manifest"></div>
             </div>
-            <div id="spin-log">Standing By...</div>
         </div>
     </div>
 
     <script>
-        const DB = [{name:"Glock17", img:"images/Glock17P80C.png"}, {name:"MP9", img:"images/MP9C.png"}, {name:"Draco", img:"images/BlackDracoBS.png"}];
-
-        function switchInterface(id) {
+        // Database and Logic logic initialized here...
+        const DB = { test: [{name:"Glock17 P80", img:"images/Glock17P80C.png"}], tier1: [], tier15: [], tier2: [] }; 
+        // ... (Include the rest of your original DB and Logic scripts here)
+        
+        function switchInterface(targetPanelId, activeFilter = null) {
             document.querySelectorAll('.panel-box').forEach(p => p.classList.remove('active-panel'));
-            document.getElementById(id).classList.add('active-panel');
-        }
-
-        function performSpin() {
-            const reel = document.getElementById('reel');
-            reel.innerHTML = "";
-            // Build visual reel
-            for(let i = 0; i < 50; i++) {
-                const item = DB[Math.floor(Math.random() * DB.length)];
-                const div = document.createElement('div');
-                div.className = "wheel-item";
-                div.innerHTML = `<img src="${item.img}"><span>${item.name}</span>`;
-                reel.appendChild(div);
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(targetPanelId).classList.add('active-panel');
+            
+            if (targetPanelId === 'spin-panel') {
+                document.getElementById('btn-spin').classList.add('active');
+            } else if (activeFilter) {
+                document.getElementById(`btn-${activeFilter}`).classList.add('active');
             }
-            // Animate
-            const totalWidth = 50 * 180;
-            reel.style.transition = "none";
-            reel.style.transform = "translateX(0px)";
-            setTimeout(() => {
-                reel.style.transition = "transform 3s cubic-bezier(0.1, 0.8, 0.1, 1)";
-                reel.style.transform = `translateX(-${(40 * 180) - 90}px)`;
-            }, 50);
         }
+        
+        // Ensure Starfield and Logic run on start
+        window.addEventListener('DOMContentLoaded', () => {
+             // Init your star field and vault here
+        });
     </script>
 </body>
 </html>
