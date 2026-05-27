@@ -253,7 +253,7 @@
             background: rgba(20, 20, 25, 0.85);
         }
         .weapon-card:hover img { transform: scale(1.05); }
-        .weapon-name {
+        .weapon-decay {
             margin-top: 15px;
             font-family: var(--font-display);
             font-weight: 700;
@@ -546,19 +546,19 @@
         const starImg = new Image();
         starImg.src = 'images/2.png'; 
 
-        const activeTiers = ['#ff003c', '#ff5500', '#ffaa00', '#888888', '#ffffff'];
-        const starCount = 30; 
+        // FIXED: Locked all fallback states, outer blooms, and shadows directly to the requested tactical red color
+        const tacticalRed = '#ff003c';
+        const starCount = 35; 
         const stars = [];
 
         for(let i = 0; i < starCount; i++) {
             stars.push({
                 x: Math.random() * width,
                 y: Math.random() * height - height,
-                // CHANGED: Scaled sizing down to a cleaner range (15px to 25px) so they aren't bulky
-                size: Math.random() * 10 + 15, 
-                speed: Math.random() * 1.5 + 0.8,
-                color: activeTiers[Math.floor(Math.random() * activeTiers.length)],
-                opacity: Math.random() * 0.6 + 0.2
+                // FIXED: Set all particles to the exact same clean, compact size
+                size: 18, 
+                speed: Math.random() * 1.2 + 0.6,
+                opacity: Math.random() * 0.5 + 0.2
             });
         }
 
@@ -570,23 +570,23 @@
                 s.y += s.speed;
                 
                 if(s.y > height) {
-                    s.y = -50;
+                    s.y = -30;
                     s.x = Math.random() * width;
-                    s.speed = Math.random() * 1.5 + 0.8;
+                    s.speed = Math.random() * 1.2 + 0.6;
                 }
 
                 ctx.save();
                 ctx.globalAlpha = s.opacity;
                 
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = s.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = tacticalRed;
                 
-                if (starImg.complete) {
+                if (starImg.complete && starImg.naturalWidth !== 0) {
                     ctx.drawImage(starImg, s.x - s.size/2, s.y - s.size/2, s.size, s.size);
                 } else {
-                    ctx.fillStyle = s.color;
+                    ctx.fillStyle = tacticalRed;
                     ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.size / 4, 0, Math.PI * 2);
+                    ctx.arc(s.x, s.y, s.size / 3, 0, Math.PI * 2);
                     ctx.fill();
                 }
                 
@@ -600,9 +600,11 @@
         };
 
         starImg.onerror = () => {
-            console.error("CRITICAL: System could not locate the file at 'images/2.png'.");
             renderEngine();
         };
+        
+        // Safety trigger if image takes time to fetch or fails CORS parameters locally
+        renderEngine();
     }
 
     // ================= DOCK PANEL CONTROLLER =================
@@ -637,7 +639,7 @@
                 htmlStr += `
                     <div class="weapon-card card-${meta.style}">
                         <img src="${item.img}" onerror="this.src='https://via.placeholder.com/150/111115/ff003c?text=Weapon'">
-                        <div class="weapon-name">${item.name}</div>
+                        <div class="weapon-decay">${item.name}</div>
                     </div>
                 `;
             });
