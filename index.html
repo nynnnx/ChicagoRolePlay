@@ -12,10 +12,6 @@
             --bg-panel: rgba(10, 10, 14, 0.45); 
             --accent-crimson: #ff003c;
             --accent-glow: rgba(255, 0, 60, 0.4);
-            --tier-s: #ff003c;
-            --tier-a: #ff5500;
-            --tier-b: #ffaa00;
-            --tier-c: #888888;
             --text-main: #ffffff;
             --text-muted: #8a8a93;
             --font-display: 'Orbitron', sans-serif;
@@ -23,14 +19,15 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: transparent; color: var(--text-main); font-family: var(--font-body); font-size: 17px; height: 100vh; overflow: hidden; display: flex; }
+        body { background: var(--bg-dark-base); color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; }
 
-        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; opacity: 0.85; pointer-events: none; object-fit: cover; }
-        #star-field { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
-        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%); z-index: -1; pointer-events: none; }
+        /* Backgrounds */
+        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; opacity: 0.85; object-fit: cover; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%); z-index: -1; }
 
+        /* Sidebar */
         .command-dock {
-            width: 280px; min-width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.65);
+            width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.65);
             backdrop-filter: blur(12px); border-right: 2px solid var(--accent-crimson);
             display: flex; flex-direction: column; padding: 25px; z-index: 10;
         }
@@ -38,35 +35,37 @@
         .dock-menu-area { flex-grow: 1; }
         .brand-block { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 0, 60, 0.2); margin-bottom: 15px; }
         .brand-logo { width: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        .brand-text { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: #fff; text-transform: uppercase; }
+        .brand-text { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: #fff; }
         .brand-text span { color: var(--accent-crimson); }
 
         .menu-label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 5px 5px; }
-        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.03); border-left: 3px solid transparent; color: var(--text-muted); padding: 10px 15px; border-radius: 4px; font-family: var(--font-display); font-size: 0.78rem; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; transition: all 0.2s; width: 100%; margin-bottom: 6px; }
-        .dock-btn:hover, .dock-btn.active { color: #fff; background: linear-gradient(90deg, rgba(255, 0, 60, 0.15), transparent); border-left-color: var(--accent-crimson); }
+        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.03); color: var(--text-muted); padding: 10px 15px; border-radius: 4px; font-family: var(--font-display); font-size: 0.78rem; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; transition: all 0.2s; width: 100%; margin-bottom: 6px; }
+        .dock-btn:hover { color: #fff; background: rgba(255, 0, 60, 0.15); border-left: 3px solid var(--accent-crimson); }
 
-        /* Bottom Info Box */
-        .info-tab {
-            background: rgba(12, 12, 16, 0.8);
-            border: 1px solid var(--accent-crimson);
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            color: var(--text-muted);
+        /* Modal / Info Tab */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center;
         }
-        .info-tab h4 { color: var(--text-main); font-family: var(--font-display); margin-bottom: 5px; font-size: 0.8rem; }
+        .modal-content {
+            background: #0a0a0e; border: 1px solid var(--accent-crimson);
+            padding: 40px; width: 450px; color: white; border-radius: 12px;
+            box-shadow: 0 0 30px var(--accent-glow); text-align: center;
+        }
+        .modal-content h2 { font-family: var(--font-display); margin-bottom: 20px; color: var(--accent-crimson); }
+        .close-btn { 
+            margin-top: 30px; background: transparent; border: 1px solid var(--accent-crimson); 
+            color: white; padding: 10px 20px; cursor: pointer; font-family: var(--font-display);
+            transition: 0.3s;
+        }
+        .close-btn:hover { background: var(--accent-crimson); }
 
-        .display-terminal { flex: 1; height: 100vh; overflow-y: auto; padding: 40px; position: relative; }
-        .panel-box { background: var(--bg-panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 40px; display: none; }
-        .panel-box.active-panel { display: block; }
-        .panel-title { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 35px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .display-terminal { flex: 1; padding: 40px; overflow-y: auto; }
     </style>
 </head>
 <body>
 
     <video autoplay loop muted playsinline class="video-canvas-local"><source src="Background1.mp4" type="video/mp4"></video>
-    <canvas id="star-field"></canvas>
     <div class="vignette"></div>
 
     <div class="command-dock">
@@ -77,47 +76,43 @@
             </div>
             
             <div class="menu-label">Main Matrix</div>
-            <button class="dock-btn active" onclick="switchInterface('vault-panel', 'all')"><i class="fa-solid fa-layer-group"></i> All Weapons</button>
-            <button class="dock-btn" onclick="switchInterface('vault-panel', 'tier2')"><i class="fa-solid fa-diamond"></i> S Tier Weapons</button>
-            <button class="dock-btn" onclick="switchInterface('vault-panel', 'tier15')"><i class="fa-solid fa-award"></i> A Tier Weapons</button>
-            <button class="dock-btn" onclick="switchInterface('vault-panel', 'tier1')"><i class="fa-solid fa-star"></i> B Tier Weapons</button>
-            <button class="dock-btn" onclick="switchInterface('vault-panel', 'test')"><i class="fa-solid fa-shield-blank"></i> C Tier Weapons</button>
+            <button class="dock-btn"><i class="fa-solid fa-layer-group"></i> All Weapons</button>
+            <button class="dock-btn"><i class="fa-solid fa-diamond"></i> S Tier Weapons</button>
             
-            <div class="menu-label">Modules</div>
-            <button class="dock-btn" onclick="switchInterface('spin-panel')"><i class="fa-solid fa-clover"></i> Faction Drop</button>
-        </div>
-
-        <div class="info-tab" id="static-info-tab">
-            <h4 id="info-title"></h4>
-            <p id="info-content"></p>
+            <div class="menu-label">System</div>
+            <button class="dock-btn" onclick="toggleInfoModal(true)"><i class="fa-solid fa-circle-info"></i> Info Hub</button>
         </div>
     </div>
 
     <div class="display-terminal">
-        <div id="vault-panel" class="panel-box active-panel">
-            <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> Inventory Storage Registry</h2>
-            <div id="vault-dynamic-dump"></div>
+        <h1>Inventory Registry</h1>
+    </div>
+
+    <div id="info-modal" class="modal-overlay" onclick="toggleInfoModal(false)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 id="modal-title"></h2>
+            <p id="modal-body"></p>
+            <button class="close-btn" onclick="toggleInfoModal(false)">CLOSE TERMINAL</button>
         </div>
-        <div id="spin-panel" class="panel-box">
-            <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Tactical Drop Engine</h2>
-            </div>
     </div>
 
     <script>
-        // EDIT INFO HERE IN THE SCRIPT:
+        // --- EDIT INFO CONTENT HERE ---
         const INFO_CONTENT = {
-            title: "SYSTEM STATUS: ACTIVE",
-            body: "Welcome to the EWC Tactical Hub. Utilize the navigation matrix to manage assets or deploy simulation drops. System version 1.0.4."
+            title: "SYSTEM ARCHIVE",
+            body: "Welcome to the EWC Tactical Hub. All data is managed and encrypted via the central registry. Current Version: 1.0.4."
         };
+        // ------------------------------
 
-        // Populate info tab
-        document.getElementById('info-title').innerText = INFO_CONTENT.title;
-        document.getElementById('info-content').innerText = INFO_CONTENT.body;
-
-        function switchInterface(targetPanelId, activeFilter) {
-            document.querySelectorAll('.panel-box').forEach(p => p.style.display = 'none');
-            document.getElementById(targetPanelId).style.display = 'block';
-            // (Include your existing buildStorageVault/logic functions here)
+        function toggleInfoModal(show) {
+            const modal = document.getElementById('info-modal');
+            if(show) {
+                document.getElementById('modal-title').innerText = INFO_CONTENT.title;
+                document.getElementById('modal-body').innerText = INFO_CONTENT.body;
+                modal.style.display = 'flex';
+            } else {
+                modal.style.display = 'none';
+            }
         }
     </script>
 </body>
