@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EWC // Tactical Weapon Vault</title>
+    <title>ChicagoRolePlay</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -470,11 +470,11 @@
         <div class="dock-top-content">
             <div class="brand-block">
                 <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-                <div class="brand-text">EWC // <span>System</span></div>
+                <div class="brand-text">Chicago<span>RolePlay</span></div>
             </div>
             
             <div class="dock-menu">
-                <div class="menu-label">Main Matrix</div>
+                <div class="menu-label">Main Storage</div>
                 
                 <button class="dock-btn active" id="btn-all" onclick="switchInterface('vault-panel', 'all')">
                     <i class="fa-solid fa-layer-group"></i> All Weapons
@@ -492,7 +492,7 @@
                     <i class="fa-solid fa-shield-blank"></i> C Tier Weapons
                 </button>
                 
-                <div class="menu-label">Modules</div>
+                <div class="menu-label">Wheel Spin</div>
                 <button class="dock-btn" id="btn-spin" onclick="switchInterface('spin-panel')">
                     <i class="fa-solid fa-clover"></i> Faction Drop
                 </button>
@@ -501,14 +501,14 @@
 
         <div class="sidebar-static-info">
             <div class="info-header-tag">
-                <i class="fa-solid fa-terminal"></i> Database Info Hub
+                <i class="fa-solid fa-terminal"></i> Info
             </div>
             <div class="info-body-text">
-                Welcome to EWC Tactical Hub. Use the Armory Vault filters on the left panel to browse database assets, or engage the Tactical Drop Engine to run weapon simulations.
+                Welcome to ChicagoRolePlay Storage.
             </div>
             <div class="info-system-footer">
-                <span>Status: Active</span>
-                <span>v1.0.4</span>
+                <span>Website Made By Nyn.</span>
+                <span>v1.0</span>
             </div>
         </div>
     </div>
@@ -521,16 +521,16 @@
         </div>
 
         <div id="spin-panel" class="panel-box">
-            <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Tactical Drop Engine</h2>
+            <h2 class="panel-title"><i class="fa-solid fa-trident"></i>Simulate a faction drop spin</h2>
             <div class="spin-interface">
                 <div class="config-panel">
                     <select id="spinTierSelect" class="selector-box">
-                        <option value="test">C Tier (Test Drop)</option>
-                        <option value="tier1">B Tier (Tier 1)</option>
-                        <option value="tier15">A Tier (Tier 1.5)</option>
-                        <option value="tier2">S Tier (Tier 2)</option>
+                        <option value="test">C Tier</option>
+                        <option value="tier1">B Tier</option>
+                        <option value="tier15">A Tier</option>
+                        <option value="tier2">S Tier</option>
                     </select>
-                    <button class="action-btn" id="masterSpinBtn" onclick="processFullDrop()">Initialize Sequence</button>
+                    <button class="action-btn" id="masterSpinBtn" onclick="processFullDrop()">Start Drop</button>
                 </div>
 
                 <div class="wheel-viewport">
@@ -566,10 +566,10 @@
     let lastWonWeaponName = "";
 
     const tierMeta = {
-        test: { label: "C Tier (Test Drop)", style: "c" },
-        tier1: { label: "B Tier (Tier 1)", style: "b" },
-        tier15: { label: "A Tier (Tier 1.5)", style: "a" },
-        tier2: { label: "S Tier (Tier 2)", style: "s" }
+        test: { label: "C Tier", style: "c" },
+        tier1: { label: "B Tier", style: "b" },
+        tier15: { label: "A Tier", style: "a" },
+        tier2: { label: "S Tier", style: "s" }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
