@@ -422,7 +422,7 @@
 <body>
 
     <video autoplay loop muted playsinline class="video-canvas-local">
-        <source src="Background1.mp4" type="video/mp4">
+        <source src="Video Project 31.mp4" type="video/mp4">
     </video>
     
     <canvas id="star-field"></canvas>
@@ -543,7 +543,6 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // FIXED: The engine now targets the 'images/' folder directory perfectly
         const starImg = new Image();
         starImg.src = 'images/2.png'; 
 
@@ -555,7 +554,8 @@
             stars.push({
                 x: Math.random() * width,
                 y: Math.random() * height - height,
-                size: Math.random() * 35 + 25, 
+                // CHANGED: Scaled sizing down to a cleaner range (15px to 25px) so they aren't bulky
+                size: Math.random() * 10 + 15, 
                 speed: Math.random() * 1.5 + 0.8,
                 color: activeTiers[Math.floor(Math.random() * activeTiers.length)],
                 opacity: Math.random() * 0.6 + 0.2
@@ -595,13 +595,12 @@
             requestAnimationFrame(renderEngine);
         }
 
-        // Delay loop safely until the image asset drops cleanly inside memory cache
         starImg.onload = () => {
             renderEngine();
         };
 
         starImg.onerror = () => {
-            console.error("CRITICAL: System could not locate the file at 'images/2.png'. Check your folder placements!");
+            console.error("CRITICAL: System could not locate the file at 'images/2.png'.");
             renderEngine();
         };
     }
