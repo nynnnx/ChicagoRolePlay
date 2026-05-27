@@ -10,7 +10,8 @@
         /* ================= THEME STYLING CONFIG ================= */
         :root {
             --bg-dark-base: #060608;
-            --bg-panel: rgba(12, 12, 16, 0.88);
+            /* CHANGED: Dropped opacity from 0.88 to 0.45 for clear backdrop visibility */
+            --bg-panel: rgba(10, 10, 14, 0.45); 
             --accent-crimson: #ff003c;
             --accent-glow: rgba(255, 0, 60, 0.4);
             
@@ -46,7 +47,8 @@
             width: 100vw; 
             height: 100vh;
             z-index: -2;
-            opacity: 0.15; /* Adjusted for better visibility of the Chicago Roleplay theme background */
+            /* CHANGED: Boosted opacity significantly from 0.15 to 0.55 so you can clearly see it */
+            opacity: 0.55; 
             pointer-events: none;
             object-fit: cover;
         }
@@ -54,7 +56,8 @@
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 20%, #000000 90%);
+            /* CHANGED: Softened vignette center to avoid dimming your video details */
+            background: radial-gradient(circle at center, transparent 40%, #000000 95%);
             z-index: -1;
             pointer-events: none;
         }
@@ -154,11 +157,14 @@
 
         .panel-box {
             background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            /* CHANGED: Increased border definition for glass contrast */
+            border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 12px;
             padding: 40px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            /* CHANGED: Decreased blur effect slightly from 15px to 8px so video shapes stay sharp behind it */
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
             display: none;
         }
         .panel-box.active-panel { display: block; animation: panelFade 0.4s ease-out forwards; }
@@ -213,8 +219,9 @@
             gap: 20px;
         }
         .weapon-card {
-            background: #0c0c10;
-            border: 1px solid rgba(255,255,255,0.02);
+            /* CHANGED: Made inventory tiles clean tinted glass slices */
+            background: rgba(12, 12, 16, 0.7); 
+            border: 1px solid rgba(255,255,255,0.05);
             border-top: 3px solid #333;
             border-radius: 6px;
             padding: 20px;
@@ -226,6 +233,7 @@
         }
         .weapon-card:hover {
             transform: translateY(-4px);
+            background: rgba(20, 20, 25, 0.85);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .weapon-card img {
@@ -403,10 +411,10 @@
             
             <div class="dock-menu">
                 <div class="menu-label">Main Matrix</div>
-                <button class="dock-btn active" onclick="switchInterface('vault-panel')">
+                <button class="dock-btn" onclick="switchInterface('vault-panel')">
                     <i class="fa-solid fa-warehouse"></i> Armory Vault
                 </button>
-                <button class="dock-btn" onclick="switchInterface('spin-panel')">
+                <button class="dock-btn active" onclick="switchInterface('spin-panel')">
                     <i class="fa-solid fa-clover"></i> Faction Drop
                 </button>
             </div>
@@ -428,13 +436,13 @@
 
     <div class="display-terminal">
         
-        <div id="vault-panel" class="panel-box active-panel">
+        <div id="vault-panel" class="panel-box">
             <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> Inventory Storage Registry</h2>
             <div class="vault-sections-container" id="vault-dynamic-dump">
                 </div>
         </div>
 
-        <div id="spin-panel" class="panel-box">
+        <div id="spin-panel" class="panel-box active-panel">
             <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Tactical Drop Engine</h2>
             <div class="spin-interface">
                 <div class="config-panel">
@@ -617,7 +625,7 @@
 
                 const p = document.createElement('div');
                 p.style.cssText = `
-                    background: #0d0d12; border: 1px solid var(--accent-crimson);
+                    background: rgba(13, 13, 18, 0.8); border: 1px solid var(--accent-crimson);
                     padding: 12px; border-radius: 4px; width: 140px; text-align: center;
                     box-shadow: 0 4px 15px rgba(0,0,0,0.5); animation: panelFade 0.4s ease forwards;
                 `;
