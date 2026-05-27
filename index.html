@@ -21,46 +21,31 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg-dark-base); color: var(--text-main); font-family: var(--font-body); height: 100vh; overflow: hidden; display: flex; }
 
-        /* Backgrounds */
-        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; opacity: 0.85; object-fit: cover; }
-        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%); z-index: -1; }
+        .video-canvas-local { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -3; opacity: 0.85; pointer-events: none; object-fit: cover; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%); z-index: -1; pointer-events: none; }
 
-        /* Sidebar */
-        .command-dock {
-            width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.65);
-            backdrop-filter: blur(12px); border-right: 2px solid var(--accent-crimson);
-            display: flex; flex-direction: column; padding: 25px; z-index: 10;
-        }
-
+        .command-dock { width: 280px; min-width: 280px; height: 100vh; background: rgba(10, 10, 13, 0.65); backdrop-filter: blur(12px); border-right: 2px solid var(--accent-crimson); display: flex; flex-direction: column; padding: 25px; z-index: 10; }
         .dock-menu-area { flex-grow: 1; }
+        
         .brand-block { text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 0, 60, 0.2); margin-bottom: 15px; }
-        .brand-logo { width: 70px; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
-        .brand-text { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; color: #fff; }
+        .brand-text { font-family: var(--font-display); font-weight: 900; color: #fff; text-transform: uppercase; }
         .brand-text span { color: var(--accent-crimson); }
 
-        .menu-label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin: 12px 0 5px 5px; }
-        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.03); color: var(--text-muted); padding: 10px 15px; border-radius: 4px; font-family: var(--font-display); font-size: 0.78rem; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; transition: all 0.2s; width: 100%; margin-bottom: 6px; }
-        .dock-btn:hover { color: #fff; background: rgba(255, 0, 60, 0.15); border-left: 3px solid var(--accent-crimson); }
+        .menu-label { font-family: var(--font-display); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin: 20px 0 5px 5px; }
+        .dock-btn { background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.03); border-left: 3px solid transparent; color: var(--text-muted); padding: 10px 15px; border-radius: 4px; font-family: var(--font-display); font-size: 0.78rem; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 12px; transition: all 0.2s; width: 100%; margin-bottom: 6px; }
+        .dock-btn:hover, .dock-btn.active { color: #fff; background: linear-gradient(90deg, rgba(255, 0, 60, 0.15), transparent); border-left-color: var(--accent-crimson); }
 
-        /* Modal / Info Tab */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: #0a0a0e; border: 1px solid var(--accent-crimson);
-            padding: 40px; width: 450px; color: white; border-radius: 12px;
-            box-shadow: 0 0 30px var(--accent-glow); text-align: center;
-        }
+        /* Modal / Info Hub Styling */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #0a0a0e; border: 1px solid var(--accent-crimson); padding: 40px; width: 450px; color: white; border-radius: 12px; box-shadow: 0 0 30px var(--accent-glow); text-align: center; }
         .modal-content h2 { font-family: var(--font-display); margin-bottom: 20px; color: var(--accent-crimson); }
-        .close-btn { 
-            margin-top: 30px; background: transparent; border: 1px solid var(--accent-crimson); 
-            color: white; padding: 10px 20px; cursor: pointer; font-family: var(--font-display);
-            transition: 0.3s;
-        }
+        .modal-content p { margin-bottom: 30px; line-height: 1.6; }
+        .close-btn { background: transparent; border: 1px solid var(--accent-crimson); color: white; padding: 12px 25px; cursor: pointer; font-family: var(--font-display); transition: 0.3s; }
         .close-btn:hover { background: var(--accent-crimson); }
 
-        .display-terminal { flex: 1; padding: 40px; overflow-y: auto; }
+        .display-terminal { flex: 1; height: 100vh; overflow-y: auto; padding: 40px; }
+        .panel-box { background: var(--bg-panel); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 40px; display: none; }
+        .panel-box.active-panel { display: block; }
     </style>
 </head>
 <body>
@@ -71,13 +56,11 @@
     <div class="command-dock">
         <div class="dock-menu-area">
             <div class="brand-block">
-                <img src="images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
                 <div class="brand-text">EWC // <span>System</span></div>
             </div>
             
             <div class="menu-label">Main Matrix</div>
-            <button class="dock-btn"><i class="fa-solid fa-layer-group"></i> All Weapons</button>
-            <button class="dock-btn"><i class="fa-solid fa-diamond"></i> S Tier Weapons</button>
+            <button class="dock-btn active" onclick="switchInterface('vault-panel')"><i class="fa-solid fa-layer-group"></i> All Weapons</button>
             
             <div class="menu-label">System</div>
             <button class="dock-btn" onclick="toggleInfoModal(true)"><i class="fa-solid fa-circle-info"></i> Info Hub</button>
@@ -85,7 +68,9 @@
     </div>
 
     <div class="display-terminal">
-        <h1>Inventory Registry</h1>
+        <div id="vault-panel" class="panel-box active-panel">
+            <h2>Inventory Registry</h2>
+        </div>
     </div>
 
     <div id="info-modal" class="modal-overlay" onclick="toggleInfoModal(false)">
@@ -97,12 +82,11 @@
     </div>
 
     <script>
-        // --- EDIT INFO CONTENT HERE ---
+        // EDIT INFO CONTENT HERE (Only this part is editable by you)
         const INFO_CONTENT = {
             title: "SYSTEM ARCHIVE",
             body: "Welcome to the EWC Tactical Hub. All data is managed and encrypted via the central registry. Current Version: 1.0.4."
         };
-        // ------------------------------
 
         function toggleInfoModal(show) {
             const modal = document.getElementById('info-modal');
@@ -113,6 +97,11 @@
             } else {
                 modal.style.display = 'none';
             }
+        }
+
+        function switchInterface(panelId) {
+            document.querySelectorAll('.panel-box').forEach(p => p.style.display = 'none');
+            document.getElementById(panelId).style.display = 'block';
         }
     </script>
 </body>
