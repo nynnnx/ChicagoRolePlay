@@ -60,12 +60,11 @@
             pointer-events: none;
         }
 
-        /* ================= SIDEBAR COMMAND DOCK (CLEAR & BLURRED) ================= */
+        /* ================= SIDEBAR COMMAND DOCK ================= */
         .command-dock {
             width: 280px;
             min-width: 280px;
             height: 100vh;
-            /* CHANGED: Swapped solid dark for matching translucent tinted glass panel */
             background: rgba(10, 10, 13, 0.45);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -231,17 +230,16 @@
             position: relative;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .weapon-card:hover {
-            transform: translateY(-4px);
-            background: rgba(20, 20, 25, 0.85);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
         .weapon-card img {
             width: 100%;
             height: 110px;
             object-fit: contain;
             filter: drop-shadow(0 5px 8px rgba(0,0,0,0.8));
             transition: transform 0.3s ease;
+        }
+        .weapon-card:hover {
+            transform: translateY(-4px);
+            background: rgba(20, 20, 25, 0.85);
         }
         .weapon-card:hover img { transform: scale(1.05); }
         .weapon-name {
@@ -254,12 +252,36 @@
             text-align: center;
         }
 
-        /* Tier Colors */
+        /* CHANGED: Dynamic Tier Border & Hover Glow Configurations */
         .card-s { border-top-color: var(--tier-s); }
+        .card-s:hover {
+            border-color: rgba(255, 0, 60, 0.6);
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.45);
+        }
+
         .card-a { border-top-color: var(--tier-a); }
+        .card-a:hover {
+            border-color: rgba(255, 85, 0, 0.6);
+            box-shadow: 0 0 25px rgba(255, 85, 0, 0.45);
+        }
+
         .card-b { border-top-color: var(--tier-b); }
+        .card-b:hover {
+            border-color: rgba(255, 170, 0, 0.6);
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.45);
+        }
+
         .card-c { border-top-color: var(--tier-c); }
+        .card-c:hover {
+            border-color: rgba(136, 136, 136, 0.6);
+            box-shadow: 0 0 25px rgba(136, 136, 136, 0.45);
+        }
+
         .card-att { border-top-color: var(--tier-att); }
+        .card-att:hover {
+            border-color: rgba(0, 170, 255, 0.6);
+            box-shadow: 0 0 25px rgba(0, 170, 255, 0.45);
+        }
 
         .bg-s { background: var(--tier-s); }
         .bg-a { background: var(--tier-a); }
@@ -411,10 +433,10 @@
             
             <div class="dock-menu">
                 <div class="menu-label">Main Matrix</div>
-                <button class="dock-btn" onclick="switchInterface('vault-panel')">
+                <button class="dock-btn active" onclick="switchInterface('vault-panel')">
                     <i class="fa-solid fa-warehouse"></i> Armory Vault
                 </button>
-                <button class="dock-btn active" onclick="switchInterface('spin-panel')">
+                <button class="dock-btn" onclick="switchInterface('spin-panel')">
                     <i class="fa-solid fa-clover"></i> Faction Drop
                 </button>
             </div>
@@ -436,13 +458,13 @@
 
     <div class="display-terminal">
         
-        <div id="vault-panel" class="panel-box">
+        <div id="vault-panel" class="panel-box active-panel">
             <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> Inventory Storage Registry</h2>
             <div class="vault-sections-container" id="vault-dynamic-dump">
                 </div>
         </div>
 
-        <div id="spin-panel" class="panel-box active-panel">
+        <div id="spin-panel" class="panel-box">
             <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Tactical Drop Engine</h2>
             <div class="spin-interface">
                 <div class="config-panel">
