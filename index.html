@@ -38,18 +38,19 @@
             display: flex;
         }
 
-        /* Ambient Dynamic GIF Backdrop */
-        .gif-canvas {
+        /* Ambient Local MP4 Backdrop */
+        .video-canvas-local {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
             z-index: -2;
-            opacity: 0.12;
+            opacity: 0.15; /* Adjusted for better visibility of the Chicago Roleplay theme background */
             pointer-events: none;
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            transition: background-image 1.2s ease-in-out;
+            object-fit: cover;
         }
+        
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -386,14 +387,13 @@
 </head>
 <body>
 
-    <!-- Dynamic GIF Background canvas frame -->
-    <div id="gif-background" class="gif-canvas"></div>
+    <video autoplay loop muted playsinline class="video-canvas-local">
+        <source src="Background1.mp4" type="video/mp4">
+    </video>
     <div class="vignette"></div>
 
-    <!-- Hidden Audio System Engine Element -->
     <audio id="audio-element" src="" preload="auto"></audio>
 
-    <!-- Left Command Navigation Bar -->
     <div class="command-dock">
         <div class="top-dock-group">
             <div class="brand-block">
@@ -412,7 +412,6 @@
             </div>
         </div>
 
-        <!-- Integrated Local Audio Sub-Module -->
         <div class="audio-deck">
             <img src="" id="m-art" class="deck-art" alt="Feed" onerror="this.src='https://via.placeholder.com/50/000?text=Audio'">
             <div class="deck-details">
@@ -427,18 +426,14 @@
         </div>
     </div>
 
-    <!-- Central Monitor Terminal Output -->
     <div class="display-terminal">
         
-        <!-- Interface Panel 1: Main Storage Vault -->
         <div id="vault-panel" class="panel-box active-panel">
             <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> Inventory Storage Registry</h2>
             <div class="vault-sections-container" id="vault-dynamic-dump">
-                <!-- Loaded Dynamically via Script Engine -->
-            </div>
+                </div>
         </div>
 
-        <!-- Interface Panel 2: Drop Module Roulette -->
         <div id="spin-panel" class="panel-box">
             <h2 class="panel-title"><i class="fa-solid fa-trident"></i> Tactical Drop Engine</h2>
             <div class="spin-interface">
@@ -465,31 +460,7 @@
 
     </div>
 
-    <!-- System Architect Scripts -->
     <script>
-    // ================= DYNAMIC GIF BACKDROP ROTATOR =================
-    // Drop your direct link animated URLs into this pool array
-    const gifPool = [
-        "images/Background1.mp4",
-        "images/background2.gif",
-        "images/background3.gif"
-    ];
-    let currentGifIdx = 0;
-
-    function initGifStreaming() {
-        const bgNode = document.getElementById('gif-background');
-        if (gifPool.length > 0) {
-            // Set first background image immediately
-            bgNode.style.backgroundImage = `url('${gifPool[currentGifIdx]}')`;
-            
-            // Optional: Rotate the ambient GIF loop every 60 seconds
-            setInterval(() => {
-                currentGifIdx = (currentGifIdx + 1) % gifPool.length;
-                bgNode.style.backgroundImage = `url('${gifPool[currentGifIdx]}')`;
-            }, 60000);
-        }
-    }
-
     // ================= INTEGRATED DATABASE ARCHETYPE =================
     const DB = {
         test: [{name:"Sentinel", img:"images/Sentinel.png"}, {name:"Glock19X Tan", img:"images/Glock19XTan.png"}, {name:"Glock 22", img:"images/Glock 22.png"}, {name:"G365X", img:"images/G365X.png"}],
@@ -522,7 +493,6 @@
     // Initialize core structural functions
     window.addEventListener('DOMContentLoaded', () => {
         buildStorageVault();
-        initGifStreaming();
         initAudioEngine();
     });
 
@@ -658,8 +628,7 @@
         });
     }
 
-    // ================= AUDIO AUDIO DECK AUDIO ENGINE =================
-    // Point the paths below to your local file audio directory storage
+    // ================= AUDIO MODULE ENGINE =================
     const playlist = [
         { src: 'audio/track1.mp3', title: 'Triple 3 - Quan Getem Gone', art: 'images/art1.jpg' },
         { src: 'audio/track2.mp3', title: 'Button Land - Lil Scoom89', art: 'images/art2.jpg' },
