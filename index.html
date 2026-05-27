@@ -27,7 +27,8 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: var(--bg-dark-base);
+            /* FIXED: Removed solid color block to let background video shine through */
+            background: transparent;
             color: var(--text-main);
             font-family: var(--font-body);
             font-size: 17px;
@@ -47,7 +48,8 @@
             width: 100vw; 
             height: 100vh;
             z-index: -3;
-            opacity: 0.55; 
+            /* FIXED: Elevated opacity slightly so the red tones pop behind your panels */
+            opacity: 0.85; 
             pointer-events: none;
             object-fit: cover;
         }
@@ -66,7 +68,8 @@
         .vignette {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, transparent 40%, #000000 95%);
+            /* FIXED: Merged your primary dark base tint color directly into the overlay gradient */
+            background: radial-gradient(circle at center, transparent 20%, var(--bg-dark-base) 95%);
             z-index: -1;
             pointer-events: none;
         }
@@ -76,7 +79,7 @@
             width: 280px;
             min-width: 280px;
             height: 100vh;
-            background: rgba(10, 10, 13, 0.45);
+            background: rgba(10, 10, 13, 0.65);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-right: 2px solid var(--accent-crimson);
@@ -546,7 +549,6 @@
         const starImg = new Image();
         starImg.src = 'images/2.png'; 
 
-        // FIXED: Locked all fallback states, outer blooms, and shadows directly to the requested tactical red color
         const tacticalRed = '#ff003c';
         const starCount = 35; 
         const stars = [];
@@ -555,7 +557,6 @@
             stars.push({
                 x: Math.random() * width,
                 y: Math.random() * height - height,
-                // FIXED: Set all particles to the exact same clean, compact size
                 size: 18, 
                 speed: Math.random() * 1.2 + 0.6,
                 opacity: Math.random() * 0.5 + 0.2
@@ -603,7 +604,6 @@
             renderEngine();
         };
         
-        // Safety trigger if image takes time to fetch or fails CORS parameters locally
         renderEngine();
     }
 
